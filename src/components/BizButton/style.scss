@@ -1,0 +1,34 @@
+.biz-button {
+  // 基础样式
+  
+  &--primary {
+    // 自定义主按钮样式
+  }
+  
+  &--success {
+    // 自定义成功按钮样式
+  }
+  
+  &--warning {
+    // 自定义警告按钮样式
+  }
+  
+  &--danger {
+    // 自定义危险按钮样式
+  }
+  
+  // 业务特定样式
+  &--submit {
+    padding: 8px 32px;
+    font-weight: 600;
+  }
+  
+  &--reset {
+    border-style: dashed;
+  }
+  
+  &--cancel {
+    background-color: #f5f7fa;
+    color: #606266;
+  }
+}

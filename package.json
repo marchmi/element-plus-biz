@@ -1,0 +1,50 @@
+{
+  "name": "element-plus-biz",
+  "version": "0.0.1",
+  "description": "基于 Element Plus 封装的业务组件库",
+  "main": "dist/element-plus-biz.cjs.js",
+  "module": "dist/element-plus-biz.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/element-plus-biz.es.js",
+      "require": "./dist/element-plus-biz.cjs.js"
+    },
+    "./style": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite serve examples",
+    "build": "vite build",
+    "build:demo": "vite build examples",
+    "clean": "rimraf dist",
+    "preview": "vite preview examples",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "element-plus",
+    "component",
+    "business",
+    "ui"
+  ],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "element-plus": "^2.0.0",
+    "vue": "^3.0.0"
+  },
+  "dependencies": {
+    "element-plus": "^2.12.0",
+    "vue": "^3.5.25"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.6.2",
+    "rimraf": "^5.0.5",
+    "sass": "^1.77.8",
+    "vite": "^4.5.3"
+  },
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ]
+}
