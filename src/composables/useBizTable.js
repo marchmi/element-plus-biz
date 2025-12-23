@@ -83,10 +83,12 @@ export const useBizTable = (options = defaultOptions) => {
   })
   const otherProps = reactive({ ...(otherOpts || {}), ...rest })
   watch(() => tableOpts.data, (val) => {
+    let waitOpreateRenderTimeout = 300
     // After data update, operation column width needs to be recalculated
     setTimeout(() => {
+      waitOpreateRenderTimeout = 0
       renderOperateHeader(tableOpts)
-    }, 300)
+    }, waitOpreateRenderTimeout)
   })
   return {
     tableOpts,
