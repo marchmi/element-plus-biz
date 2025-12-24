@@ -1,10 +1,11 @@
 <template>
   <div class="operate table-operate biz-operate">
     <template v-if="moreThanNum && data.length > moreThanNum">
-      <template v-for="(item, index) in data.slice(0, moreThanNum)" :key="index">
+      <template v-for="item in data.slice(0, moreThanNum)" :key="item.handleFunc">
         <cell-button
           :item="item"
           :row-data="rowData"
+          :row-index="props.rowIndex"
           @handleOperation="handleOperation(item.handleFunc)"></cell-button>
       </template>
       <el-dropdown trigger="click">
@@ -12,12 +13,13 @@
         <template #dropdown>
           <el-dropdown-menu class="operate-more">
             <el-dropdown-item
-              v-for="(item, index) in data.slice(moreThanNum)"
-              :key="index"
-              :disabled="item.isDisabled ? item.isDisabled(rowData) : false">
+              v-for="item in data.slice(moreThanNum)"
+              :key="item.handleFunc"
+              :disabled="item.isDisabled ? item.isDisabled(rowData, props.rowIndex) : false">
               <cell-button
                 :item="item"
                 :row-data="rowData"
+                :row-index="props.rowIndex"
                 placement="left"
                 @handleOperation="handleOperation(item.handleFunc)"></cell-button>
             </el-dropdown-item>
@@ -26,7 +28,7 @@
       </el-dropdown>
     </template>
     <template v-else>
-      <template v-for="(item, index) in data" :key="index">
+      <template v-for="item in data" :key="item.handleFunc">
         <cell-button
           :item="item"
           :row-data="rowData"
@@ -36,23 +38,30 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, watch, ref, defineEmits } from 'vue'
 import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElButton } from 'element-plus'
 import CellButton from './CellButton.vue'
 import { isString, isFunction } from '../../utils'
-
-import { hasPermission } from '../../composables/useBizPermission.js'
+import { hasPermission } from '../../composables/useBizPermission'
 import './style.scss'
 
-const props = defineProps({
-  moreThanNum: Number,
-  rowIndex: Number,
-  rowData: Object,
-  buttonData: Array
-})
+export interface ButtonItem {
+  handleFunc: string | Function
+  permission?: string
+  isShow?: (rowData: any, rowIndex: number) => boolean
+  isDisabled?: (rowData: any, rowIndex: number) => boolean
+  [key: string]: any
+}
 
-const data = ref([])
+const props = defineProps<{
+  moreThanNum?: number
+  rowIndex: number
+  rowData: any
+  buttonData: ButtonItem[]
+}>()
+
+const data = ref<ButtonItem[]>([])
 
 /**
  * Watch row data
@@ -75,16 +84,18 @@ function filterButton () {
   })
 }
 
-const emit = defineEmits(['handleOperation'])
+const emit = defineEmits<{
+  handleOperation: [handleFunc: string | Function, rowData: any, rowIndex: number]
+}>()
 
-const handleOperation = handleFunc => {
+const handleOperation = (handleFunc: string | Function): void => {
   // Determine if handleFunc is a method name or function
   if (isString(handleFunc)) {
     emit('handleOperation', handleFunc, props.rowData, props.rowIndex)
     return
   }
   if (isFunction(handleFunc)) {
-    handleFunc(props.rowData, props.rowIndex)
+    (handleFunc as Function)(props.rowData, props.rowIndex)
   }
 }
 </script>

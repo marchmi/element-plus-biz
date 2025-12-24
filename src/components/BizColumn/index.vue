@@ -25,27 +25,27 @@
     </template>
   </el-table-column>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ElTableColumn } from 'element-plus'
 import { defineProps, defineEmits } from 'vue'
 import { handleClipboard } from '../../utils/interaction'
 import { judgeZero } from '../../utils'
+import type { TableColumn } from '../../utils'
 import './style.scss'
 
-const props = defineProps({
-  columns: {
-    type: Array,
-    default: () => {
-      return []
-    }
-  }
-})
-const emit = defineEmits(['handlePopoverVisible', 'handleClearPopover'])
+const props = defineProps<{
+  columns: TableColumn[]
+}>()
+
+const emit = defineEmits<{
+  handlePopoverVisible: [event: Event, row: any]
+  handleClearPopover: []
+}>()
 
 /**
  * Hide popupOver
  */
-const handleClearPopover = () => {
+const handleClearPopover = (): void => {
   emit('handleClearPopover')
 }
 
@@ -54,7 +54,7 @@ const handleClearPopover = () => {
  * @param $event
  * @param row
  */
-const handlePopoverVisible = ($event, row) => {
+const handlePopoverVisible = ($event: Event, row: any): void => {
   emit('handlePopoverVisible', $event, row)
 }
 
@@ -62,8 +62,8 @@ const handlePopoverVisible = ($event, row) => {
  * Table double click to copy
  * @param event
  */
-const handleCopy = (event) => {
-  handleClipboard(event, event.target.innerText)
+const handleCopy = (event: Event): void => {
+  handleClipboard(event, (event.target as HTMLElement).innerText)
 }
 
 /**
@@ -73,7 +73,7 @@ const handleCopy = (event) => {
  * @param index
  * @param row
  */
-const renderContent = (column, value, index, row) => {
+const renderContent = (column: TableColumn, value: any, index: number, row: any): any => {
   if (column.render) {
     return column.render(value, index, row)
   }

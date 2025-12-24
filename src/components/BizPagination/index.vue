@@ -11,39 +11,39 @@
       :total="parseInt(opts.total)"
       v-bind="{ ...$attrs, otherProps}"
       v-if="opts?.total">
-        <template v-for="slot in Object.keys($slots)" :key="slot" #[slot]="props">
+        <template v-for="(slot, index) in Object.keys($slots)" :key="index" #[slot]="props">
           <slot :name="slot" v-bind="props"></slot>
         </template>
     </el-pagination>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ElPagination } from 'element-plus'
 import { defineProps, defineEmits, computed } from 'vue'
+import type { PaginationOptions } from '@/composables/useBizPagination'
 
-const emit = defineEmits(['update:paginationOpts', 'pageHandleFunc'])
-const props = defineProps({
-  paginationOpts: {
-    type: Object,
-    required: true
-  },
-  otherProps: {
-    type: Object,
-    default: () => {
-      return {}
-    }
-  }
-})
+const emit = defineEmits<{
+  'update:paginationOpts': [value: PaginationOptions]
+  pageHandleFunc: []
+}>()
+
+const props = defineProps<{
+  paginationOpts: PaginationOptions
+  otherProps: Record<string, any>
+}>()
+
 const opts = computed({
   get: () => props.paginationOpts,
-  set: v => emit('update:paginationOpts', v)
+  set: (v: PaginationOptions) => emit('update:paginationOpts', v)
 })
-const handleSizeChange = (pageSize) => {
+
+const handleSizeChange = (pageSize: number): void => {
   opts.value.pageSize = pageSize
   handleCurrentChange(1)
 }
-const handleCurrentChange = (currentPage) => {
+
+const handleCurrentChange = (currentPage: number): void => {
   opts.value.currentPage = currentPage
   emit('pageHandleFunc')
 }

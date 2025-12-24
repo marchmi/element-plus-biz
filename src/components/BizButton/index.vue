@@ -9,32 +9,23 @@
   </el-button>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { ElButton } from 'element-plus'
 import './style.scss'
+import { hasPermission } from '@/composables/useBizPermission'
 
-export default defineComponent({
-  name: 'BizButton',
-  components: {
-    ElButton
-  },
-  props: {
-    // Extend Element Plus Button props
-    type: {
-      type: String,
-      default: 'primary'
-    },
-    // Custom business property
-    bizType: {
-      type: String,
-      default: ''
-    },
-    // Permission control
-    permission: {
-      type: String,
-      default: ''
-    }
-  }
-})
+// Extend Element Plus Button props
+defineProps<{
+  type?: string
+  // Custom business property
+  bizType?: string
+  // Permission control
+  permission?: string
+}>()
+</script>
+
+<script lang="ts">
+export default {
+  name: 'BizButton'
+}
 </script>

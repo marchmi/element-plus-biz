@@ -24,40 +24,25 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { defineProps, defineEmits, computed, ref, defineExpose } from 'vue'
 import BizTable from '../BizTable/index.vue'
 import BizPagination from '../BizPagination/index.vue'
+import type { TableOptions } from '@/composables/useBizTable'
+import type { PaginationOptions } from '@/composables/useBizPagination'
 import './style.scss'
 
-const props = defineProps({
-  paginationViewOpts: {
-    type: Object,
-    default: () => {
-      return {}
-    }
-  },
-  otherPaginationViewProps: {
-    type: Object,
-    default: () => {
-      return {}
-    }
-  },
-  dataViewOpts: {
-    type: Object,
-    default: () => {
-      return {}
-    }
-  },
-  otherDataViewProps: {
-    type: Object,
-    default: () => {
-      return {}
-    }
-  }
-})
+const props = defineProps<{
+  paginationViewOpts: PaginationOptions
+  otherPaginationViewProps: Record<string, any>
+  dataViewOpts: TableOptions
+  otherDataViewProps: Record<string, any>
+}>()
 
-const emit = defineEmits(['dataViewOpts', 'paginationViewOpts'])
+const emit = defineEmits<{
+  'update:dataViewOpts': [value: TableOptions]
+  'update:paginationViewOpts': [value: PaginationOptions]
+}>()
 const dataOpts = computed({
   get: () => props.dataViewOpts,
   set: v => emit('update:dataViewOpts', v)

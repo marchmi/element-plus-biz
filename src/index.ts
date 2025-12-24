@@ -9,12 +9,12 @@ import BizDataList from './components/BizDataList/index.vue'
 import BizOperateCell from './components/BizOperateCell/index.vue'
 
 // Import composable functions
-import { useBizPagination } from './composables/useBizPagination.js'
-import { useBizTable } from './composables/useBizTable.js'
-import { useBizPermission } from './composables/useBizPermission.js'
+import { useBizPagination } from './composables/useBizPagination'
+import { useBizTable } from './composables/useBizTable'
+import { useBizPermission } from './composables/useBizPermission'
 
 // Export all components
-const components = {
+const components: Record<string, any> = {
   BizButton,
   BizTable,
   BizPagination,
@@ -35,15 +35,15 @@ export {
   useBizTable,
   useBizPermission
 }
-export { hasPermission, initUserPermissions } from './composables/useBizPermission.js'
-export { useBizConfigure } from './composables/useBizConfigure.js'
+export { hasPermission, initUserPermissions } from './composables/useBizPermission'
+export { useBizConfigure } from './composables/useBizConfigure'
 
 // Export utility functions
-export * from './utils/index.js'
-export * from './utils/interaction.js'
+export * from './utils/index'
+export * from './utils/interaction'
 // Export default install function
 export default {
-  install(app) {
+  install(app: any) {
     // Register all components
     for (const component in components) {
       app.component(component, components[component])
