@@ -1,3 +1,4 @@
+import type { DefineComponent, Component } from 'vue'
 // Note: Element Plus styles need to be imported by the user
 
 // Import components
@@ -14,13 +15,13 @@ import { useBizTable } from './composables/useBizTable'
 import { useBizPermission } from './composables/useBizPermission'
 
 // Export all components
-const components: Record<string, any> = {
-  BizButton,
-  BizTable,
-  BizPagination,
-  BizColumn,
-  BizDataList,
-  BizOperateCell
+const components: Record<string, Component> = {
+  BizButton: BizButton as DefineComponent,
+  BizTable: BizTable as DefineComponent,
+  BizPagination: BizPagination as DefineComponent,
+  BizColumn: BizColumn as DefineComponent,
+  BizDataList: BizDataList as DefineComponent,
+  BizOperateCell: BizOperateCell as DefineComponent
 }
 
 // Export all composable functions

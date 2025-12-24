@@ -1,3 +1,4 @@
+// @ts-ignore
 import { bizConfigure } from '../composables/useBizConfigure'
 
 export function judgeZero(value: any): any {

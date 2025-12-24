@@ -1,4 +1,5 @@
 import { ElLoading, ElMessage, ElMessageBox } from 'element-plus'
+// @ts-ignore
 import { bizConfigure } from '../composables/useBizConfigure'
 
 export interface ConfirmOptions {
